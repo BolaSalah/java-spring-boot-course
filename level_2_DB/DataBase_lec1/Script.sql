@@ -1,6 +1,4 @@
-DROP TABLE Manager;  -- Delete table
 SELECT * FROM Manager;  -- Show all columns Manager in table
-SELECT * FROM Owner;  -- Show all columns in table
 
 -- ###############################################################################
 
@@ -21,7 +19,7 @@ ALTER TABLE Manager DROP COLUMN address;
 -- ###############################################################################
 
 --3_ alter table manger add column (city_address, street)
-ALTER TABLE Manager ADD (city_address VARCHAR2(100), street VARCHAR2(100))
+ALTER TABLE Manager ADD (city_address VARCHAR2(100), street VARCHAR2(100));
 
 -- ###############################################################################
 
@@ -39,18 +37,17 @@ ALTER TABLE Manager READ WRITE; -- Make table read and write
 --6_ create table same as  Manger with name Owner : just has colum id, name, birth_date 
 CREATE TABLE Owner AS 
 SELECT id, full_name AS name, birth_date FROM Manager WHERE 1 = 0;
+SELECT * FROM Owner;  -- Show all columns in table
 
 -- ###############################################################################
 
 --7_ rename manger table name to Master
 RENAME Manager TO Master;
 SELECT * FROM Master;  -- Show all columns in Master table
-RENAME Master TO Manager; -- to reset Manager Table
 
 -- ###############################################################################
 
 --8_ drop all tables
-DROP TABLE Manager;  -- Delete Manager table completely
 DROP TABLE Master;  -- Delete Master table completely
 DROP TABLE Owner;   -- Delete Owner table completely
 
