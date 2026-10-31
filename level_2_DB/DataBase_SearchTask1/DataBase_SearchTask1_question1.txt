@@ -1,0 +1,33 @@
+1. String Comparison
+
+SELECT *
+FROM employees
+WHERE first_name > 'ahmed'
+  AND first_name < 'ali';
+
+Question: How will this work?
+--------------------------------------------------------------
+Answer:
+
+What does it do?
+Returns employees whose first name comes AFTER 'ahmed' and BEFORE 'ali'
+alphabetically, excluding 'ahmed' and 'ali' themselves.
+
+How does it work?
+Strings are compared in lexicographic (dictionary) order.
+The database compares them character by character from left to right and decides at
+the first character that differs.
+- 'ahmed' vs 'ali': both start with 'a', then 'h' < 'l', so 'ahmed' < 'ali'.
+
+Examples:
+- Returned:     ahmedz, ai, akram
+- Not returned: ahmed, ali, adam, amr
+
+Important notes:
+1.  Case Sensitivity: Oracle is case-sensitive by default (uppercase letters have lower ASCII values than lowercase).
+Example: 'Ahmed' < 'ahmed', so 'Ahmed' would NOT be returned since it comes before 'ahmed'.
+
+2. NULL values are never returned (any comparison with NULL is not true).
+
+3. To include the boundaries, use >= and <=, or BETWEEN:
+   WHERE first_name BETWEEN 'ahmed' AND 'ali'

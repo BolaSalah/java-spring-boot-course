@@ -1,0 +1,34 @@
+2. Understanding ROWNUM
+
+Queries:
+- SELECT * FROM employees WHERE ROWNUM = 1; (Works)
+- SELECT * FROM employees WHERE ROWNUM = 2; (Does not work)
+- SELECT * FROM employees WHERE ROWNUM = 3; (Does not work)
+
+Question: Why does the first query work, while the second and third do not?
+--------------------------------------------------------------
+Answer:
+
+- ROWNUM is a pseudo-column in Oracle that assigns a sequential number to rows 
+  as they are fetched from the query, starting with 1.
+
+- Why ROWNUM = 1 works:
+  Oracle fetches the first row, assigns it ROWNUM = 1, checks the condition 
+  (1 = 1 which is TRUE), and returns the row.
+
+- Why ROWNUM = 2 (or > 1) fails:
+  1. Oracle fetches the first row and assigns it ROWNUM = 1.
+  2. It checks the condition (1 = 2), which is FALSE, so the row is discarded.
+  3. The next row fetched now becomes the "first" row being evaluated, 
+     so Oracle assigns it ROWNUM = 1 again.
+  4. This cycle repeats for every row in the table. 
+    As a result, ROWNUM can never reach 2 or greater, so conditions like
+    ROWNUM = 2 or ROWNUM > 1 return 0 rows.
+
+- How to get the Nth row properly (Solution):
+  To query a specific row (like row #2 or #3), you must use a subquery 
+  to assign the ROWNUM first, and then query it in an outer query:
+  
+SELECT * FROM (
+    SELECT e.*, ROWNUM rn FROM employees e
+) WHERE rn = 2;
